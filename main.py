@@ -1,4 +1,6 @@
+from email.policy import default
 import re
+import argparse
 
 
 def get_sentences(lines):
@@ -73,8 +75,21 @@ def print_top_ngram(n, topSize, words):
 
 
 # code starts here
+parser = argparse.ArgumentParser()
+parser.add_argument(
+    "--n", type=int, help="'n' for n-gram. Default: %(default)s", default=4)
+parser.add_argument(
+    "--k", type=int,  help="top sort of k n-grams. Default: %(default)s", default=10)
+parser.add_argument("--input", type=str,
+                    help="input file name. Default: %(default)s", default="input.txt")
+
+args = parser.parse_args()
+input = args.input
+n = args.n
+k = args.k
+
 lines = []
-with open("big_input.txt") as file:
+with open(input) as file:
     lines = file.readlines()
 
 
@@ -89,9 +104,6 @@ print("---Words counter in sentences---")
 print(counters)
 print("Average word count in sentence", get_average_words_count(counters))
 print("Median word count in sentence", get_median_words_count(counters))
-
-n = 4
-k = 10
 
 print(f"---Top: {k} {n}-gram---")
 print_top_ngram(n, k, words)
