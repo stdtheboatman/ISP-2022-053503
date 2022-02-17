@@ -1,11 +1,14 @@
 #!/bin/bash
 
-name=$1
-args=$2
-
+name=""
+if [ $# -ne 0 ]
+    then
+        name="--name $1"
+fi
+        
 echo ${args}
 
-docker run --name ${name} \
+docker run ${name} \
 ${args} \
 --mount type=bind,src="${PWD}/local",target="/app/data" \
 theboatman/first-lab
