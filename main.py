@@ -89,7 +89,7 @@ n = args.n
 k = args.k
 
 lines = []
-with open(input) as file:
+with open("data/" + input) as file:
     lines = file.readlines()
 
 
