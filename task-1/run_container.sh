@@ -10,5 +10,5 @@ echo ${args}
 
 docker run ${name} \
 ${args} \
---mount type=bind,src="${PWD}/local",target="/app/data" \
+--mount type=bind,src="${PWD}/data",target="/app/data" \
 theboatman/first-lab
