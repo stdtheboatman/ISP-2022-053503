@@ -14,10 +14,10 @@ def get_sentences(lines):
 def get_words(sentences):
     words = []
     for sentence in sentences:
-        words += sentence.split()
+        words += re.split(r'[ ,\n]', sentence)
 
     words = [word.lower() for word in words]
-    return list(filter(lambda word: word != '' and word != '\n', words))
+    return list(filter(lambda word: word != '', words))
 
 
 def print_words_count(words):
@@ -34,8 +34,7 @@ def print_words_count(words):
 def get_word_counters(sentences):
     counters = []
     for sentence in sentences:
-        words = sentence.split()
-        words = list(filter(lambda word: word != '' and word != '\n', words))
+        words = get_words(sentence)
 
         counter = len(words)
         if counter > 0:
@@ -78,8 +77,10 @@ def print_top_ngram(n, topSize, words):
 parser = argparse.ArgumentParser()
 parser.add_argument(
     "--n", type=int, help="'n' for n-gram. Default: %(default)s", default=4)
+
 parser.add_argument(
     "--k", type=int,  help="top sort of k n-grams. Default: %(default)s", default=10)
+
 parser.add_argument("--input", type=str,
                     help="input file name. Default: %(default)s", default="input.txt")
 
