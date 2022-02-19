@@ -73,38 +73,40 @@ def print_top_ngram(n, topSize, words):
         print(ngram)
 
 
-# code starts here
-parser = argparse.ArgumentParser()
-parser.add_argument(
-    "--n", type=int, help="'n' for n-gram. Default: %(default)s", default=4)
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--n", type=int, help="'n' for n-gram. Default: %(default)s", default=4)
 
-parser.add_argument(
-    "--k", type=int,  help="top sort of k n-grams. Default: %(default)s", default=10)
+    parser.add_argument(
+        "--k", type=int,  help="top sort of k n-grams. Default: %(default)s", default=10)
 
-parser.add_argument("--input", type=str,
-                    help="input file name. Default: %(default)s", default="input.txt")
+    parser.add_argument("--input", type=str,
+                        help="input file name. Default: %(default)s", default="input.txt")
 
-args = parser.parse_args()
-input = args.input
-n = args.n
-k = args.k
+    args = parser.parse_args()
+    input = args.input
+    n = args.n
+    k = args.k
 
-lines = []
-with open("data/" + input) as file:
-    lines = file.readlines()
+    lines = []
+    with open("data/" + input) as file:
+        lines = file.readlines()
+
+    sentences = get_sentences(lines)
+    words = get_words(sentences)
+
+    print_words_count(words)
+
+    counters = get_word_counters(sentences)
+
+    print("---Words counter in sentences---")
+    print(counters)
+    print("Average word count in sentence", get_average_words_count(counters))
+    print("Median word count in sentence", get_median_words_count(counters))
+
+    print(f"---Top: {k} {n}-gram---")
+    print_top_ngram(n, k, words)
 
 
-sentences = get_sentences(lines)
-words = get_words(sentences)
-
-print_words_count(words)
-
-counters = get_word_counters(sentences)
-
-print("---Words counter in sentences---")
-print(counters)
-print("Average word count in sentence", get_average_words_count(counters))
-print("Median word count in sentence", get_median_words_count(counters))
-
-print(f"---Top: {k} {n}-gram---")
-print_top_ngram(n, k, words)
+main()
