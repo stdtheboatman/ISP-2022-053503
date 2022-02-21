@@ -5,7 +5,13 @@ if [ $# -ne 0 ]
     then
         name="--name $1"
 fi
-        
+
+args=""
+if [ $# -gt 1 ]
+    then
+        args=$2
+fi
+
 echo ${args}
 
 docker run ${name} \
