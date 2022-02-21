@@ -10,7 +10,7 @@ class TextParser:
 
     def print_statistics(self):
         lines: List[str] = []
-        with open("data/" + self._input) as file:
+        with open("data/" + self._input, 'a+') as file:
             lines = file.readlines()
 
         sentences = self.get_sentences(lines)
@@ -19,6 +19,11 @@ class TextParser:
         self.print_words_count(words)
 
         counters = self.get_word_counters(sentences)
+
+        if (len(counters) == 0):
+            print(
+                f"Text in <data/{self._input}> doesn't contain words. Statistics cannot be calculated.")
+            return
 
         print("---Words counter in sentences---")
         print(counters)

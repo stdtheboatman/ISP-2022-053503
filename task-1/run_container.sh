@@ -14,6 +14,8 @@ fi
 
 echo ${args}
 
+mkdir -p data
+
 docker run ${name} \
 ${args} \
 --mount type=bind,src="${PWD}/data",target="/app/data" \
