@@ -1,7 +1,9 @@
+"""Wrapper for argparse"""
 import argparse
 
 
 def positive_integer(value: int) -> int:
+    """Type positive integer value for argparse"""
     ivalue = int(value)
 
     if ivalue < 1:
@@ -12,6 +14,7 @@ def positive_integer(value: int) -> int:
 
 
 def init_args_parser():
+    """Return parser with added arguments"""
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--n", type=positive_integer, help="'n' for n-gram. n > 0. Default: %(default)s", default=4)

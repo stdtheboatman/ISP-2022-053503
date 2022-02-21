@@ -1,14 +1,32 @@
+"""Provides class -> TextParser"""
+
 import re
 from typing import Any, Dict, List
 
 
 class TextParser:
-    def __init__(self, n: int, k: int, input: str):
+    """Class provide methods for text analysis"""
+
+    def __init__(self, n: int, k: int, input: str) -> None:
+        """
+        Inital args:
+        n -> size of n-gram
+        k -> the number of n-grams output
+        input -> get text from "/data/{input}"
+        """
         self._n = n
         self._k = k
         self._input = input
 
     def print_statistics(self):
+        """
+        Print text statistics:
+            counter for each word
+            words counter for each sentense
+            average words count in sentences
+            median words count in sentences
+            top k n-gram
+        """
         lines: List[str] = []
         with open("data/" + self._input, 'a+') as file:
             lines = file.readlines()
