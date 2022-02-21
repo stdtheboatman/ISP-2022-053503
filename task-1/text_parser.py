@@ -29,19 +29,20 @@ class TextParser:
         """
         lines: List[str] = []
         with open("data/" + self._input, 'a+') as file:
+            file.seek(0)
             lines = file.readlines()
 
         sentences = self.get_sentences(lines)
         words = self.get_words(sentences)
 
-        self.print_words_count(words)
-
-        counters = self.get_word_counters(sentences)
-
-        if (len(counters) == 0):
+        if words == []:
             print(
                 f"Text in <data/{self._input}> doesn't contain words. Statistics cannot be calculated.")
             return
+
+        self.print_words_count(words)
+
+        counters = self.get_word_counters(sentences)
 
         print("---Words counter in sentences---")
         print(counters)

@@ -6,4 +6,4 @@ COPY . .
 
 ENV ARGS=""
 
-CMD python3 main.py ${ARGS}
+CMD mkdir -p data && python3 main.py ${ARGS}
