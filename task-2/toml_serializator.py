@@ -3,14 +3,14 @@ from baisc_serializator import Serializator
 from mypickle import MyPickle
 
 class TomlSerializator(Serializator):
-    def dumps(self, obj: object) -> str:
-        ser_obj = MyPickle.serialize(obj)
+    def dumps(self, obj: object, _globals) -> str:
+        ser_obj = MyPickle.serialize(obj, _globals)
         
         return toml.dumps(ser_obj)
     
     
-    def dump(self, obj: object, filepath: str) -> None:
-        ser_obj = MyPickle.serialize(obj)
+    def dump(self, obj: object, filepath: str, _globals) -> None:
+        ser_obj = MyPickle.serialize(obj, _globals)
         
         with open(filepath, "w") as file:
             toml.dump(ser_obj, file)    

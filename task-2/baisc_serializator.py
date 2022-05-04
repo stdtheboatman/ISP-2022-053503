@@ -2,11 +2,11 @@ from abc import ABC, abstractmethod
 
 class Serializator(ABC):
     @abstractmethod
-    def dumps(obj: object) -> str:
+    def dumps(obj: object, _globals) -> str:
         pass
     
     @abstractmethod
-    def dump(obj: object, filepath: str) -> None:
+    def dump(obj: object, filepath: str, _globals) -> None:
         pass
     
     @abstractmethod

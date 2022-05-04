@@ -1,8 +1,8 @@
-from serializators.baisc_serializator import Serializator
+from baisc_serializator import Serializator
 
-from serializators.json_serializator import JsonSerializator
-from serializators.yaml_serializator import YamlSerializator
-from serializators.toml_serializator import TomlSerializator 
+from json_serializator import JsonSerializator
+from yaml_serializator import YamlSerializator
+from toml_serializator import TomlSerializator 
 
 class Creator:
     @staticmethod

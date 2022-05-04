@@ -8,42 +8,43 @@ from typing import Dict, List
 
 class MyPickle:
     @staticmethod
-    def serialize_list(obj: List[any]) -> List[any]:
+    def serialize_list(obj: List[any], _globals) -> List[any]:
         return [MyPickle.serialize(x) for x in obj]
     
     @staticmethod
-    def serialize_dict(obj: Dict) -> Dict:
+    def serialize_dict(obj: Dict, _globals) -> Dict:
         res = {}
         for key, value in obj.items:
-            res[key] = MyPickle.serialize(value)
+            res[key] = MyPickle.serialize(value, _globals)
         
         return res
     
     @staticmethod
-    def serialize_func(obj: types.FunctionType) -> str:
+    def serialize_func(obj: types.FunctionType, _globals) -> str:
         code: types.CodeType = obj.__code__
         code_string = str(marshal.dumps(code), "cp1252")
         
         name = obj.__name__
-        
-        _globals = globals()
-        
-        
+         
         used_imports: List[str] = []
         used_global_vars: Dict[str:any] = {}
+        
         for key in code.co_names:
             value = _globals.get(key)
             if value is None:
+                used_imports.append(key)
                 continue
             
             if inspect.ismodule(value):
                 _module: types.ModuleType = value
                 used_imports.append(_module.__name__)
                 continue
-             
             
-            used_global_vars[key] = MyPickle.serialize(value)
-               
+            if inspect.isfunction(value):
+                continue
+             
+            used_global_vars[key] = MyPickle.serialize(value, _globals)
+        
         res = {
             "__type__": "__func__",
             "name": name,
@@ -62,18 +63,18 @@ class MyPickle:
             return False
     
     @staticmethod
-    def serialize_class(obj: type) -> object:
+    def serialize_class(obj: type, _globals) -> object:
         supers = []
         for base in obj.__bases__:
             if base.__name__ != "object":
-                supers.append(MyPickle.serialize_class(base))
+                supers.append(MyPickle.serialize_class(base, _globals))
                 
         
         functions = inspect.getmembers(obj, predicate=inspect.isfunction)
         
         methods = {}
         for func in functions:
-            methods[func[0]] = MyPickle.serialize_func(func[1])
+            methods[func[0]] = MyPickle.serialize_func(func[1], _globals)
         
         
         _attributes = inspect.getmembers(obj, predicate=lambda x: not inspect.isroutine(x))
@@ -83,7 +84,7 @@ class MyPickle:
             if attribute[0].startswith("__") and attribute[0].endswith("__"):
                 continue
             
-            attributes[attribute[0]] = MyPickle.serialize(attribute[1])
+            attributes[attribute[0]] = MyPickle.serialize(attribute[1], _globals)
          
         name = obj.__name__
         res = {
@@ -97,7 +98,7 @@ class MyPickle:
         return res
     
     @staticmethod
-    def serialize_class_object(obj: object) -> object:
+    def serialize_class_object(obj: object, _globals) -> object:
         attributes = {}
         for key in dir(obj):
             if key.startswith("__") and key.endswith("__"):
@@ -107,9 +108,9 @@ class MyPickle:
             if inspect.ismethod(attribute):
                 continue
             
-            attributes[key] = MyPickle.serialize(attribute)
+            attributes[key] = MyPickle.serialize(attribute, _globals)
         
-        _class = MyPickle.serialize(obj.__class__)
+        _class = MyPickle.serialize(obj.__class__, _globals)
         
         res = {
             "__type__": "__object__",
@@ -120,24 +121,24 @@ class MyPickle:
         return res
     
     @staticmethod
-    def serialize(obj: object) -> object:
+    def serialize(obj: object, _globals) -> object:
         if MyPickle.is_serializable_by_json(obj):
             return obj
         
         if inspect.isfunction(obj):
-            return MyPickle.serialize_func(obj)
+            return MyPickle.serialize_func(obj, _globals)
         
         if inspect.isclass(obj):
-            return MyPickle.serialize_class(obj)
+            return MyPickle.serialize_class(obj, _globals)
         
         if type(obj) is dict:
-            return MyPickle.serialize_dict(obj)
+            return MyPickle.serialize_dict(obj, _globals)
         
         if type(obj) is list:
-            return MyPickle.serialize_list(obj)
+            return MyPickle.serialize_list(obj, _globals)
         
         if inspect.isclass(type(obj)):
-            return MyPickle.serialize_class_object(obj)
+            return MyPickle.serialize_class_object(obj, _globals)
             
         return "uWu ^-^"
     
@@ -152,9 +153,11 @@ class MyPickle:
         _globals = MyPickle.deserialize(_globals)
         
         for module_name in imports:
-            _module = import_module(module_name)
-            _globals[module_name] = _module
-            
+            try:
+                _module = import_module(module_name)
+                _globals[module_name] = _module
+            except:
+                pass
             
         res = types.FunctionType(code, _globals, name)
         return res
