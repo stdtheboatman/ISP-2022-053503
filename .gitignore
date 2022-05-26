@@ -5,3 +5,5 @@
 
 .vscode
 **/dev-env
+.env
+**/migrations
