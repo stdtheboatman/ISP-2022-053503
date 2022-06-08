@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { Link } from 'react-router-dom' 
 import AuthContext from '../context/AuthContext'
 
-const Header = () => {
+export const Header = () => {
     const {user, logoutUser} = useContext(AuthContext)
     
     return (
@@ -12,10 +12,7 @@ const Header = () => {
             <Link to="/login"> Login </Link> :
             <Link to="/login" onClick={logoutUser}> Logout</Link>
         }
-
-        { user  && <p> Hello {user.user_id} </p> }
+        <Link to="/updateUserData"> Update Data </Link>
     </div>
     )
 }
-
-export default Header

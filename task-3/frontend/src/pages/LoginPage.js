@@ -1,7 +1,7 @@
 import React, {useContext} from "react"
 import AuthContext from "../context/AuthContext"
 
-const LoginPage = () => {
+export const LoginPage = () => {
     const {loginUser} = useContext(AuthContext)
   
     return (
@@ -14,5 +14,3 @@ const LoginPage = () => {
     </div>
   )
 }
-
-export default LoginPage

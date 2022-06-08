@@ -3,13 +3,14 @@ import './App.css';
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
-import HomePage from './pages/HomePage';
-import LoginPage from './pages/LoginPage';
+import {HomePage} from './pages/HomePage';
+import {LoginPage} from './pages/LoginPage';
 
-import Header from './components/Header';
-import PrivateRoute from './utils/PrivateRoute';
+import {Header} from './components/Header';
+import {PrivateRoute} from './utils/PrivateRoute';
 
 import {AuthProvider} from "./context/AuthContext"
+import {UpdateUserDataPage} from './pages/UpdateUserDataPage';
 
 function App() {
   return (
@@ -18,10 +19,14 @@ function App() {
           <AuthProvider>
             <Header />
             <Routes>
-              <Route element={<PrivateRoute />} path='/' exact>
-                <Route element={<HomePage />} path="/" exact />
-              </Route>
               <Route element={<LoginPage />} path="/login" />
+
+    
+              <Route element={<PrivateRoute> <HomePage/> </PrivateRoute>} path="/" exact />
+              <Route element={<PrivateRoute> <UpdateUserDataPage/> </PrivateRoute>} path="/updateUserData" exact />
+
+          
+
             </Routes>
           </AuthProvider>
         </Router>
