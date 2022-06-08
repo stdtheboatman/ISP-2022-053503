@@ -40,6 +40,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     #local apps
     'auth_api',
+    'api',
     
     #cors
     'corsheaders',
@@ -66,7 +67,7 @@ REST_FRAMEWORK = {
 
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=1),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
     'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': False,
