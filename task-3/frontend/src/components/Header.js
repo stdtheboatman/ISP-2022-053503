@@ -13,6 +13,8 @@ export const Header = () => {
             <Link to="/login" onClick={logoutUser}> Logout</Link>
         }
         <Link to="/updateUserData"> Update Data </Link>
+        <Link to="/data"> Data </Link>
+        
     </div>
     )
 }

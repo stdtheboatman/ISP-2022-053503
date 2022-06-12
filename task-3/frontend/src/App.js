@@ -11,6 +11,7 @@ import {PrivateRoute} from './utils/PrivateRoute';
 
 import {AuthProvider} from "./context/AuthContext"
 import {UpdateUserDataPage} from './pages/UpdateUserDataPage';
+import { DataPage } from './pages/DataPage';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
     
               <Route element={<PrivateRoute> <HomePage/> </PrivateRoute>} path="/" exact />
               <Route element={<PrivateRoute> <UpdateUserDataPage/> </PrivateRoute>} path="/updateUserData" exact />
+              <Route element={<PrivateRoute> <DataPage/> </PrivateRoute>} path="/data" exact />
 
           
 

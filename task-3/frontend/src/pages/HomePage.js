@@ -1,11 +1,11 @@
 import React, {useContext} from "react"
 import AuthContext from "../context/AuthContext"
+import { DataPage } from "./DataPage"
 
 export const HomePage = () => {
-    const {user} = useContext(AuthContext)
     return (
         <div>
-            HomePage
+            <DataPage />
         </div>
     )
 }
