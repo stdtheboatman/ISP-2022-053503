@@ -4,13 +4,14 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from .models import UserData, User
 from .serializers import UserDataSerializer
+from .apps import ApiConfig
+from .logic import DataHandlerSingleton
 
 # Create your views here.
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def setUserData(request):
     request.data["username"] = str(request.user)
-    print(request.data)
     serializer = UserDataSerializer(data=request.data)        
     
     if serializer.is_valid() is False:
@@ -18,3 +19,13 @@ def setUserData(request):
     
     serializer.save()
     return Response("")
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get(request):
+    dataHandler = DataHandlerSingleton.getInstance()
+    
+    user: User = request.user
+    userData: UserData = UserData.objects.filter(user=user).get()
+
+    return Response(dataHandler.getCurrencyDistribution(userData.apiKey, userData.secretKey))
