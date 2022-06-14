@@ -48,7 +48,7 @@ export const UpdateUserDataPage = () => {
             <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-            Sign in
+            Update keys
             </Typography>
             <form className={classes.form} noValidate onSubmit={updateUserData}>
             <TextField
