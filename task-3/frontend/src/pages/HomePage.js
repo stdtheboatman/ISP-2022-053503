@@ -1,11 +1,7 @@
-import React, {useContext} from "react"
-import AuthContext from "../context/AuthContext"
-import { DataPage } from "./DataPage"
-
+import React from "react"
 export const HomePage = () => {
     return (
         <div>
-            <DataPage />
         </div>
     )
 }

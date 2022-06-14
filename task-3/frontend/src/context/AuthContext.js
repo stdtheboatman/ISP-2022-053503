@@ -62,6 +62,7 @@ export const AuthProvider = ({children}) => {
         const data = await response.json()
         
         if (response.status === 200) {
+            navigate("/")
         } else {
             alert("Something went wrong with update user data")
         }
@@ -148,8 +149,10 @@ export const AuthProvider = ({children}) => {
 
     useEffect(() => {
         if (loading) {
-            updateToken()
-            updateChartPieData()
+            if (authTokens) {
+                updateToken()
+                updateChartPieData()
+            }
         
             setLoading(false)
         }
@@ -157,7 +160,9 @@ export const AuthProvider = ({children}) => {
 
     useEffect(() => {
         const interval = setInterval(() => {
-            updateChartPieData()
+            if (authTokens) {
+                updateChartPieData()
+            }
         }, 1000 * 5 * 60)
 
         return () => clearInterval(interval)
