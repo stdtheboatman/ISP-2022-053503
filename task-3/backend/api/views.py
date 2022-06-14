@@ -28,4 +28,11 @@ def get(request):
     user: User = request.user
     userData: UserData = UserData.objects.filter(user=user).get()
 
-    return Response(dataHandler.getCurrencyDistribution(userData.apiKey, userData.secretKey))
+    data = ""
+    try:
+        data = dataHandler.getCurrencyDistribution(userData.apiKey, userData.secretKey)
+    except Exception as e:
+        return Response(str(e), status=404)
+        
+
+    return Response(data)

@@ -1,7 +1,9 @@
 import http
 import json
 import logging
+from multiprocessing import Process
 import os
+import time
 from typing import Dict, List, Tuple
 import requests
 import hmac
@@ -285,3 +287,15 @@ class DataHandlerSingleton:
             self.instance = DataHandler(15 * 60, "exchangeRate.json")
         
         return self.instance
+    
+def some_task():
+    print("hello: ", time.time())
+    
+def add_interval_task(intervalSeconds, task):
+    def task_wrap():
+        while(True):
+            task()
+            time.sleep(intervalSeconds)
+            
+    p = Process(target=task_wrap)
+    p.start()

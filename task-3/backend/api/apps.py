@@ -6,5 +6,5 @@ class ApiConfig(AppConfig):
     name = 'api'
     
     def ready(self) -> None:
-        DataHandlerSingleton.getInstance()
+        DataHandlerSingleton.getInstance()    
         return super().ready()
