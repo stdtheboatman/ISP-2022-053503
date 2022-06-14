@@ -62,7 +62,6 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
-    
 }
 
 
@@ -140,6 +139,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'djongo',
         'NAME': 'dev-database',
+        'HOST': 'db',
+        'PORT': '27017',
     }
 }
 
