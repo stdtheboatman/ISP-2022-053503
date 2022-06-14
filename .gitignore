@@ -2,3 +2,8 @@
 **/__pycache__
 
 /task-1/data/*.txt
+
+.vscode
+**/dev-env
+.env
+**/migrations
